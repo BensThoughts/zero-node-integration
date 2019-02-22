@@ -93,13 +93,13 @@ fi
 if [ "$pushMode" != "-" ]; then
     case "$pushMode" in
         patch)
-			 NEW_SEM_VER=$(npm version patch)
+		    NEW_SEM_VER=$(npm version patch)
             ;;
         minor)
-			 NEW_SEM_VER=$(npm version minor)
+		    NEW_SEM_VER=$(npm version minor)
             ;;
         major)
-			 NEW_SEM_VER=$(npm version major)
+		    NEW_SEM_VER=$(npm version major)
             ;;
         *)
             printf "push must be one of patch, minor, or major\n"
