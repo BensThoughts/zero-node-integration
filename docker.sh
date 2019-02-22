@@ -106,20 +106,21 @@ if [ "$pushMode" != "-" ]; then
 			exit 1
     esac
 	
-	printf "New sem version: $NEW_SEM_VER\n"
+	printf "Rebuilding with new semantic version: $NEW_SEM_VER\n"
 	# Rebuild so that new semantic version is included in the image
 	"$0" -b
 	GIT_VER=$(git rev-parse @)
 
 	# Push the newest commit, and latest tag
-	printf "Pushing git version to docker repo: $GIT_VER"
-	docker push $IMG_NAME:$GIT_VER
-	printf "Pushing tag latest to docker repo:"
+	printf "Pushing latest to docker repo:"
 	docker push $IMG_NAME:latest
+
+    printf "Pushing git version tag to docker repo: $GIT_VER"
+	docker push $IMG_NAME:$GIT_VER
 
 	# Create the semantic version tag, push it, then remove it
 	# from the local system.
-	printf "Pushing tag $NEW_SEM_VER to docker repo:"
+	printf "Pushing semantic version tag to docker repo: $NEW_SEM_VER"
 	docker tag $IMG_NAME:$GIT_VER $IMG_NAME:$NEW_SEM_VER
 	docker push $IMG_NAME:$NEW_SEM_VER
 	docker image rm $IMG_NAME:$NEW_SEM_VER
