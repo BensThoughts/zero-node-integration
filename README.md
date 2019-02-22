@@ -69,13 +69,7 @@ services:
 # gcloud auth configure-docker
 ```
 
-In general --push is meant to be used for releases, so you should be at a clean stage in which your app is fully up to date, recently committed, and recently built, or pushing will not work.
-
-***Note*** If you get an error such as:
-```
-Error: No such image: MY_REPO/MY_APP:commitHash
-```
-It is because you are trying to push an image that is not based on the latest commit. Rebuild with --build and then try push again.
+In general --push is meant to be used for releases, so you should be at a clean stage in which your app is fully up to date, recently committed, or pushing will not work.
 
 ***Note*** If you get an error such as
 ```
@@ -83,15 +77,11 @@ npm ERR! Git working directory not clean.
 ```
 It is because you have uncommitted files. Commit your changes, rebuild with --build, and then try to --push again.
 
-Assuming your git has no uncommitted changes, you can also build and push in one step with:
-```
-# ./docker.sh -b -p (patch, minor, or major)
-```
-
 The --push command will use npm to bump the semantic version stored in your package.json file by 1, in either the major X.0.0, minor 0.Y.0, or patch 0.0.Z field. You can do this with --push patch, --push minor, or --push major.
 
-***Note*** The version bump feature of npm also creates a new commit with a tag of the new version that looks like v.X.Y.Z in the git tree, to mark the release. After the version bump the script will push the most recent image that you built to your repo and tag it with it's git commit hash, the semantic version, and recent.
+***Note*** The version bump feature of npm also creates a new commit with a tag of the new version that looks like v.X.Y.Z in the git tree, to mark the release. 
 
+After the version bump the script will re-build the image so that the new semantic version is reflected inside of the image. It will then push the most recent image to your repo and tag it with it's git commit hash, the semantic version, and recent.
 
 **Overview:**
 

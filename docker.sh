@@ -107,24 +107,20 @@ if [ "$pushMode" != "-" ]; then
     esac
 	
 	printf "New sem version: $NEW_SEM_VER\n"
-	
-	# Tag the new commit version and remove the old tag
-	# (npm version bump creates a new commit)
-	NEW_GIT_VER=$(git rev-parse @)
-	PREV_GIT_VER=$(git rev-parse @~)
-	docker tag $IMG_NAME:latest $IMG_NAME:$NEW_GIT_VER
-	docker image rm $IMG_NAME:$PREV_GIT_VER
-	
+	# Rebuild so that new semantic version is included in the image
+	"$0" -b
+	GIT_VER=$(git rev-parse @)
+
 	# Push the newest commit, and latest tag
-	printf "Pushing git version to docker repo: $NEW_GIT_VER"
-	docker push $IMG_NAME:$NEW_GIT_VER
+	printf "Pushing git version to docker repo: $GIT_VER"
+	docker push $IMG_NAME:$GIT_VER
 	printf "Pushing tag latest to docker repo:"
 	docker push $IMG_NAME:latest
 
 	# Create the semantic version tag, push it, then remove it
 	# from the local system.
 	printf "Pushing tag $NEW_SEM_VER to docker repo:"
-	docker tag $IMG_NAME:$NEW_GIT_VER $IMG_NAME:$NEW_SEM_VER
+	docker tag $IMG_NAME:$GIT_VER $IMG_NAME:$NEW_SEM_VER
 	docker push $IMG_NAME:$NEW_SEM_VER
 	docker image rm $IMG_NAME:$NEW_SEM_VER
 fi
