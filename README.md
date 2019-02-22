@@ -42,7 +42,9 @@ Check that the repo and app name are set correctly:
 
 # What is does:
 
-**--build || -b :** Builds the image for local testing
+**--build || -b :** 
+
+Builds the image for local testing.
 
 ***Note*** If you are running the container you will need to remove it before building.  Just stop the container from running then run --build again.
 
@@ -61,7 +63,9 @@ services:
         image: DOCKER_REPO/APP_NAME:latest
 ```
 
-**--version || -v [patch, minor, or major] :** Bumps the semantic version up 1 and then rebuilds
+**--version || -v [patch, minor, or major] :**
+
+Bumps the semantic version up 1 and then rebuilds for release.
 
 --version will use npm to bump the semantic version stored in your package.json file by 1, in either the major X.0.0, minor 0.Y.0, or patch 0.0.Z field. You can do this with --version patch, --version minor, or --version major.
 
@@ -77,7 +81,9 @@ npm ERR! Git working directory not clean.
 It is because you have uncommitted files. Commit your changes, and then try to --version again.
 
 
-**--push || -p :** Pushes the image to the registry with the tags: latest, git commit hash, and current semantic version.
+**--push || -p :** 
+
+Pushes the image to the registry with the tags: latest, git commit hash, and current semantic version.
 
 ***Note*** You will need to authenticate your docker to the image registry you are using before push will work.  This can be done in various ways, for google it is:
 
@@ -93,6 +99,11 @@ tag does not exist: DOCKER_REPO/APP_NAME:commitHash
 ```
 
 It is because you have not built the image based on the latest commit.  Suggestion is to run --version to bump the version (this will automatically build out the latest version), or just run --build if you do not want to bump the version before pushing.
+
+You can also bump the version and push all at once with:
+```
+# ./docker.sh --version [patch, minor, or major] --push
+```
 
 
 # Overview of workflow:
