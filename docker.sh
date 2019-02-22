@@ -87,7 +87,7 @@ if [ "$i" = "y" ]; then
     GIT_VER=$(git rev-parse @)
     printf "Repo/App: $IMG_NAME\n"
     printf "Semantic Version: v$SEM_VER\n"
-    printf "Git commit hash: $GIT_VER\n"
+    printf "Git Commit Hash: $GIT_VER\n"
 fi
 
 if [ "$b" = "y" ]; then
