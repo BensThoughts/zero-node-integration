@@ -12,14 +12,15 @@ usage="$(basename "$0") [ -h | --help ] [-i | --info] [ -b | --build ] [ -p | --
 
 help="
 where:
-    -h, --help  : help
-    -i, --info  : get the current projects repo/name
-    -b, --build : build container
-    -p, --push  : push a new version (patch, minor, or major)"
+    -h, --help    : help
+    -i, --info    : get the current projects repo/name
+    -b, --build   : build container
+    -v, --version : bump the version by (patch, minor, or major) 
+    -p, --push    : push a new version"
 
 
-OPTIONS=hibp:
-LONGOPTS=help,info,build,push:,
+OPTIONS=hibpv:
+LONGOPTS=help,info,build,push,version:,
 
 # -use ! and PIPESTATUS to get exit code with errexit set
 # -temporarily store output to be able to check for errors
@@ -34,7 +35,7 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-h=n b=n i=n pushMode=-
+h=n i=n b=n versionBump=- p=n
 # now enjoy the options in order and nicely split until we see --
 while true; do
     case "$1" in
@@ -51,7 +52,11 @@ while true; do
             shift
             ;;
         -p|--push)
-            pushMode="$2"
+            p=y
+            shift
+            ;;
+        -v|--version)
+            versionBump="$2"
             shift 2
             ;;
         --)
@@ -90,8 +95,8 @@ if [ "$b" = "y" ]; then
     docker tag $IMG_NAME:latest $IMG_NAME:$GIT_VER
 fi
 
-if [ "$pushMode" != "-" ]; then
-    case "$pushMode" in
+if [ "$versionBump" != "-" ]; then
+    case "$versionBump" in
         patch)
             NEW_SEM_VER=$(npm version patch)
             ;;
@@ -102,28 +107,38 @@ if [ "$pushMode" != "-" ]; then
             NEW_SEM_VER=$(npm version major)
             ;;
         *)
-            printf "push must be one of patch, minor, or major\n"
+            printf "version bump must be one of patch, minor, or major\n"
             exit 1
+            ;;
     esac
-    
     printf "Rebuilding with new semantic version: $NEW_SEM_VER\n"
     # Rebuild so that new semantic version is included in the image
     "$0" -b
+fi
+
+
+if [ "$p" = "y" ]; then
     GIT_VER=$(git rev-parse @)
+    SEM_VER=$(cat package.json \
+        | grep version \
+        | head -1 \
+        | awk -F: '{ print $2 }' \
+        | sed 's/[",]//g')
 
-    # Push the newest commit, and latest tag
-    printf "Pushing latest to docker repo:"
-    docker push $IMG_NAME:latest
-
-    printf "Pushing git version tag to docker repo: $GIT_VER"
+    # Push the newest commit
+    printf "Pushing new git version to docker repo: $GIT_VER\n"
     docker push $IMG_NAME:$GIT_VER
+    
+    # Push the latest tag
+    printf "Pushing latest tag to docker repo: latest\n"
+    docker push $IMG_NAME:latest
 
     # Create the semantic version tag, push it, then remove it
     # from the local system.
-    printf "Pushing semantic version tag to docker repo: $NEW_SEM_VER"
-    docker tag $IMG_NAME:$GIT_VER $IMG_NAME:$NEW_SEM_VER
-    docker push $IMG_NAME:$NEW_SEM_VER
-    docker image rm $IMG_NAME:$NEW_SEM_VER
+    printf "Pushing semantic version tag to docker repo: $SEM_VER\n"
+    docker tag $IMG_NAME:$GIT_VER $IMG_NAME:$SEM_VER
+    docker push $IMG_NAME:$SEM_VER
+    docker image rm $IMG_NAME:$SEM_VER
 fi
 
 exit 0
