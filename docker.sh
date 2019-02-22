@@ -13,10 +13,10 @@ echo "$usage"
 
 help="
 where:
-	-h, --help  : help
-	-i, --info  : get the current projects repo/name
-	-b, --build : build container
-	-p, --push  : push a new version (patch, minor, or major)"
+    -h, --help  : help
+    -i, --info  : get the current projects repo/name
+    -b, --build : build container
+    -p, --push  : push a new version (patch, minor, or major)"
 
 
 OPTIONS=hibp:
@@ -43,10 +43,10 @@ while true; do
             h=y
             shift
             ;;
-		-i|--info)
-			i=y
-			shift
-			;;
+        -i|--info)
+            i=y
+            shift
+            ;;
         -b|--build)
             b=y
             shift
@@ -74,56 +74,56 @@ if [ "$h" = "y" ]; then
 fi
 
 if [ "$i" = "y" ]; then
-	printf "Repo/App: $IMG_NAME\n"
+    printf "Repo/App: $IMG_NAME\n"
 fi
 
 if [ "$b" = "y" ]; then
-	GIT_VER=$(git rev-parse @)
-	PREV_ID=$(docker images -f reference=$IMG_NAME:latest --format "{{.ID}}")
-	# Start by removing all previous versions of the image
-	if [ ! -z "$PREV_ID" ]; then
-		docker image rm -f "$PREV_ID"
-	fi
-	# Build and tag the image with the git commit hash
-	printf "Building docker image: $IMG_NAME:$GIT_VER\n"
-	docker build -t $IMG_NAME:latest .
-	docker tag $IMG_NAME:latest $IMG_NAME:$GIT_VER
+    GIT_VER=$(git rev-parse @)
+    PREV_ID=$(docker images -f reference=$IMG_NAME:latest --format "{{.ID}}")
+    # Start by removing all previous versions of the image
+    if [ ! -z "$PREV_ID" ]; then
+        docker image rm -f "$PREV_ID"
+    fi
+    # Build and tag the image with the git commit hash
+    printf "Building docker image: $IMG_NAME:$GIT_VER\n"
+    docker build -t $IMG_NAME:latest .
+    docker tag $IMG_NAME:latest $IMG_NAME:$GIT_VER
 fi
 
 if [ "$pushMode" != "-" ]; then
     case "$pushMode" in
         patch)
-		    NEW_SEM_VER=$(npm version patch)
+            NEW_SEM_VER=$(npm version patch)
             ;;
         minor)
-		    NEW_SEM_VER=$(npm version minor)
+            NEW_SEM_VER=$(npm version minor)
             ;;
         major)
-		    NEW_SEM_VER=$(npm version major)
+            NEW_SEM_VER=$(npm version major)
             ;;
         *)
             printf "push must be one of patch, minor, or major\n"
-			exit 1
+            exit 1
     esac
-	
-	printf "Rebuilding with new semantic version: $NEW_SEM_VER\n"
-	# Rebuild so that new semantic version is included in the image
-	"$0" -b
-	GIT_VER=$(git rev-parse @)
+    
+    printf "Rebuilding with new semantic version: $NEW_SEM_VER\n"
+    # Rebuild so that new semantic version is included in the image
+    "$0" -b
+    GIT_VER=$(git rev-parse @)
 
-	# Push the newest commit, and latest tag
-	printf "Pushing latest to docker repo:"
-	docker push $IMG_NAME:latest
+    # Push the newest commit, and latest tag
+    printf "Pushing latest to docker repo:"
+    docker push $IMG_NAME:latest
 
     printf "Pushing git version tag to docker repo: $GIT_VER"
-	docker push $IMG_NAME:$GIT_VER
+    docker push $IMG_NAME:$GIT_VER
 
-	# Create the semantic version tag, push it, then remove it
-	# from the local system.
-	printf "Pushing semantic version tag to docker repo: $NEW_SEM_VER"
-	docker tag $IMG_NAME:$GIT_VER $IMG_NAME:$NEW_SEM_VER
-	docker push $IMG_NAME:$NEW_SEM_VER
-	docker image rm $IMG_NAME:$NEW_SEM_VER
+    # Create the semantic version tag, push it, then remove it
+    # from the local system.
+    printf "Pushing semantic version tag to docker repo: $NEW_SEM_VER"
+    docker tag $IMG_NAME:$GIT_VER $IMG_NAME:$NEW_SEM_VER
+    docker push $IMG_NAME:$NEW_SEM_VER
+    docker image rm $IMG_NAME:$NEW_SEM_VER
 fi
 
 exit 0
