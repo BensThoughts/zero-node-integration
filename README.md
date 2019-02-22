@@ -29,7 +29,7 @@ DOCKER_REPO=gcr.io/my-project
 APP_NAME=myapp
 ```
 
-In total you should have the dependencies installed, as well as a Dockerfile, package.json, docker.sh, and deploy.env all in the the primary directory in which git was initialized for the project. deploy.env keeps the configuration separate from the script so that it is easy to use this within any project.
+In total you should have the dependencies installed, as well as a Dockerfile, package.json, docker.sh, and deploy.env all in the the primary directory that git was initialized in for the project. deploy.env keeps the configuration separate from the script so that it is easy to use this within any project.
 
 Get help with:
 ```
