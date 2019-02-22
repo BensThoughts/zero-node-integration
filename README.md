@@ -13,6 +13,7 @@ When you are ready to release you can bump the version automatically and push th
 * npm
 * git
 * docker
+* bash!
 
 Download docker.sh from this repo to your project directory. Enable it from a command prompt:
 ```
