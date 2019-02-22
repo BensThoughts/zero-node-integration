@@ -78,7 +78,16 @@ if [ "$h" = "y" ]; then
 fi
 
 if [ "$i" = "y" ]; then
+    SEM_VER=$(cat package.json \
+        | grep version \
+        | head -1 \
+        | awk -F: '{ print $2 }' \
+        | sed 's/[",]//g' \
+        | sed -e 's/^[ \t]*//')
+    GIT_VER=$(git rev-parse @)
     printf "Repo/App: $IMG_NAME\n"
+    printf "Semantic Version: v$SEM_VER\n"
+    printf "Git commit hash: $GIT_VER\n"
 fi
 
 if [ "$b" = "y" ]; then

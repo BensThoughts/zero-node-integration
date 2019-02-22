@@ -40,6 +40,8 @@ Check that the repo and app name are set correctly:
 # ./docker.sh -i || --info
 ```
 
+This will also give you the current semantic version and most recent git commit hash.
+
 # What is does:
 
 **--build || -b :** 
