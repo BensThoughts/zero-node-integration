@@ -6,7 +6,19 @@ It will automatically build docker images locally, keeping the most recent versi
 
 ***How to setup:***
 
-Make sure you have a file in your project directory called deploy.env next to docker.sh, as well as a Dockerfile and a package.json file.  You will also need npm for the automatic version bumping.
+
+**Dependendcies:**
+
+* npm
+* git
+* docker
+
+Download docker.sh from this repo to your project directory. Enable it from a command prompt:
+```
+# chmod +x docker.sh
+```
+
+Make sure you also have a file in your project directory called deploy.env.
 
 deploy.env looks like:
 
@@ -15,10 +27,7 @@ DOCKER_REPO=gcr.io/my-project
 APP_NAME=myapp
 ```
 
-Enable docker.sh from a command prompt with:
-```
-# chmod +x docker.sh
-```
+In total you should have the dependencies installed, as well as a Dockerfile, package.json, docker.sh, and deploy.env all in the same directory. deploy.env keeps the configuration separate of the script so that it is easy to use this within any project.
 
 Get help with:
 ```
