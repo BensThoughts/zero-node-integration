@@ -9,7 +9,6 @@ if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
 fi
 
 usage="$(basename "$0") [ -h | --help ] [-i | --info] [ -b | --build ] [ -p | --push ] -- program to build and push docker container images"
-echo "$usage"
 
 help="
 where:
@@ -70,6 +69,7 @@ source ./deploy.env
 IMG_NAME=$DOCKER_REPO/$APP_NAME
 
 if [ "$h" = "y" ]; then
+    printf "$usage\n"
     printf "$help\n"
 fi
 
