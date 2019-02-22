@@ -13,7 +13,7 @@ usage="$(basename "$0") [ -h | --help ] [-i | --info] [ -b | --build ] [ -p | --
 help="
 where:
     -h, --help    : help
-    -i, --info    : get the current projects repo/name
+    -i, --info    : get the current projects repo/name, semantic ver, & git hash
     -b, --build   : build container
     -v, --version : bump the version by 1 (patch, minor, or major) 
     -p, --push    : push a new version"
