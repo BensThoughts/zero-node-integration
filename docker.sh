@@ -15,9 +15,8 @@ where:
     -h, --help    : help
     -i, --info    : get the current projects repo/name
     -b, --build   : build container
-    -v, --version : bump the version by (patch, minor, or major) 
+    -v, --version : bump the version by 1 (patch, minor, or major) 
     -p, --push    : push a new version"
-
 
 OPTIONS=hibpv:
 LONGOPTS=help,info,build,push,version:,
@@ -35,7 +34,7 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-h=n i=n b=n versionBump=- p=n
+h=n i=n b=n p=n versionBump=-
 # now enjoy the options in order and nicely split until we see --
 while true; do
     case "$1" in
