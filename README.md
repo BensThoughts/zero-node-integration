@@ -48,11 +48,11 @@ This will also give you the current semantic version and most recent git commit 
 
 Builds the image for local testing.
 
-***Note*** If you are running the container you will need to remove it before building.  Just stop the container from running then run --build again.
+*Note* If you are running the container you will need to remove it before building.  Just stop the container from running then run --build again.
 
 The --build command will remove the latest image and all of it's tags, then build a new version on your local system based on your current commit, and lastly tag it with the current git commit hash and latest.
 
-***Note*** If you have multi-stage builds, \<NONE\> image tags will be left behind. These can be easily cleaned up with *docker image prune*.
+*Note* If you have multi-stage builds, \<NONE\> image tags will be left behind. These can be easily cleaned up with *docker image prune*.
 
 You can test the latest built image with docker run or with docker-compose by referencing the latest image:
 ```
@@ -71,11 +71,11 @@ Bumps the semantic version up 1 and then rebuilds for release.
 
 --version will use npm to bump the semantic version stored in your package.json file by 1, in either the major X.0.0, minor 0.Y.0, or patch 0.0.Z field. You can do this with --version patch, --version minor, or --version major.
 
-***Note*** The version bump feature of npm also creates a new git tag that looks like v.X.Y.Z in the git tree, to mark the release. 
+*Note* The version bump feature of npm also creates a new git tag that looks like v.X.Y.Z in the git tree, to mark the release. 
 
 After the version bump the script will re-build the image so that the new semantic version is reflected inside of the image.
 
-***Note*** If you get an error such as
+*Note* If you get an error such as
 ```
 npm ERR! Git working directory not clean.
 ```
@@ -87,7 +87,7 @@ It is because you have uncommitted files. Commit your changes, and then try --ve
 
 Pushes the image to the registry with the tags: latest, git commit hash, and current semantic version.
 
-***Note*** You will need to authenticate your docker to the image registry you are using before push will work.  This can be done in various ways, for google it is:
+*Note* You will need to authenticate your docker to the image registry you are using before push will work.  This can be done in various ways, for google it is:
 
 ```
 # gcloud auth configure-docker
@@ -95,7 +95,7 @@ Pushes the image to the registry with the tags: latest, git commit hash, and cur
 
 In general --push is meant to be used for releases, so you should be at a clean stage in which your app is fully committed and built, or pushing will not work.
 
-**Note** If you get an error such as
+*Note* If you get an error such as
 ```
 tag does not exist: DOCKER_REPO/APP_NAME:commitHash
 ```
