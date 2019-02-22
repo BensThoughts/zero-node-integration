@@ -86,10 +86,11 @@ if [ "$b" = "y" ]; then
     PREV_ID=$(docker images -f reference=$IMG_NAME:latest --format "{{.ID}}")
     # Start by removing all previous versions of the image
     if [ ! -z "$PREV_ID" ]; then
+        printf "Deleting old docker image:\n"
         docker image rm -f "$PREV_ID"
     fi
     # Build and tag the image with the git commit hash
-    printf "Building docker image: $IMG_NAME:$GIT_VER\n"
+    printf "\nBuilding new docker image: $IMG_NAME:$GIT_VER\n"
     docker build -t $IMG_NAME:latest .
     docker tag $IMG_NAME:latest $IMG_NAME:$GIT_VER
 fi
@@ -110,7 +111,7 @@ if [ "$versionBump" != "-" ]; then
             exit 1
             ;;
     esac
-    printf "Rebuilding with new semantic version: $NEW_SEM_VER\n"
+    printf "Rebuilding with new semantic version: $NEW_SEM_VER\n\n"
     # Rebuild so that new semantic version is included in the image
     "$0" -b
 fi
@@ -128,14 +129,12 @@ if [ "$p" = "y" ]; then
     # Push the newest commit
     printf "Pushing new git version to docker repo: $GIT_VER\n"
     docker push $IMG_NAME:$GIT_VER
-    printf " \n"
     # Push the latest tag
-    printf "Pushing latest tag to docker repo: latest\n"
+    printf "\nPushing latest tag to docker repo: latest\n"
     docker push $IMG_NAME:latest
-    printf " \n"
     # Create the semantic version tag, push it, then remove it
     # from the local system.
-    printf "Pushing semantic version tag to docker repo: v$SEM_VER\n"
+    printf "\nPushing semantic version tag to docker repo: v$SEM_VER\n"
     docker tag "$IMG_NAME":"$GIT_VER" "$IMG_NAME":"v$SEM_VER"
     docker push "$IMG_NAME":"v$SEM_VER"
     docker image rm "$IMG_NAME":"v$SEM_VER"
