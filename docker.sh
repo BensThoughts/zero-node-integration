@@ -122,22 +122,23 @@ if [ "$p" = "y" ]; then
         | grep version \
         | head -1 \
         | awk -F: '{ print $2 }' \
-        | sed 's/[",]//g')
+        | sed 's/[",]//g' \
+        | sed -e 's/^[ \t]*//')
 
     # Push the newest commit
     printf "Pushing new git version to docker repo: $GIT_VER\n"
-    docker push $IMG_NAME:$GIT_VER
-    
+    #docker push $IMG_NAME:$GIT_VER
+    printf " \n"
     # Push the latest tag
     printf "Pushing latest tag to docker repo: latest\n"
-    docker push $IMG_NAME:latest
-
+    #docker push $IMG_NAME:latest
+    printf " \n"
     # Create the semantic version tag, push it, then remove it
     # from the local system.
     printf "Pushing semantic version tag to docker repo: v$SEM_VER\n"
-    docker tag $IMG_NAME:$GIT_VER $IMG_NAME:v$SEM_VER
-    docker push $IMG_NAME:v$SEM_VER
-    docker image rm $IMG_NAME:v$SEM_VER
+    docker tag "$IMG_NAME":"$GIT_VER" "$IMG_NAME":"v$SEM_VER"
+    docker push "$IMG_NAME":"v$SEM_VER"
+    docker image rm "$IMG_NAME":"v$SEM_VER"
 fi
 
 exit 0
