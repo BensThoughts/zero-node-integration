@@ -99,6 +99,6 @@ In total you can work on a project, wile committing changes.  Then test those ch
 
 Your docker image repo will continue to grow with the recent tag remaining attached to the most recent version/commit while leaving behind images that have a semantic version tag as well as a commit hash tag.
 
-Thus in your image repo it is easy to see what version images are associated with and to look up from which commit they came from. All the while on your local machine it is easy to commit and test regularly without having each new commit pollute your system.
+Thus in your image repo it is easy to see what version images are associated with and to look up from which commit they came from. All the while on your local machine it is easy to commit and test regularly without having each new commit build pollute your system.
 
 And lastly you will not have to manually edit your package.json to bump the version when you release.
