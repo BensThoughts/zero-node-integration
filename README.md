@@ -1,6 +1,6 @@
 # Zero Node/Angular Integration
 
-This is a slightly opinionated script that I wrote to aid in building and pushing docker images to registries in which package.json is used for versioning.  In other words this works for Node and Angular apps (There is an example angular Dockerfile in the repo as well). Specifically I use it with google image registry, but I'm sure you could use it with others.
+This is a slightly opinionated script that I wrote to aid in building and pushing docker images to registries in which package.json is used for versioning.  This works for Node, Angular, or any other apps that use package.json for versioning (There is an example angular Dockerfile in the repo as well). Specifically I use it with google image registry, but I'm sure you could use it with others.
 
 It will automatically build docker images locally, keeping the most recent version tagged with recent and the commit hash it is based on. This makes testing locally easy.  
 
