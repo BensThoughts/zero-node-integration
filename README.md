@@ -83,6 +83,11 @@ npm ERR! Git working directory not clean.
 ```
 It is because you have uncommitted files. Commit your changes, rebuild with --build, and then try to --push again.
 
+Assuming your git has no uncommitted changes, you can also build and push in one step with:
+```
+# ./docker.sh -b -p (patch, minor, or major)
+```
+
 The --push command will use npm to bump the semantic version stored in your package.json file by one in either the major X.0.0, minor 0.Y.0, or patch 0.0.Z field. You can do this with --push patch, --push minor, or --push major.
 
 ***Note*** The version bump feature of npm also creates a new commit with a tag of the new version that looks like v.X.Y.Z in the git tree, to mark the release. After the version bump the script will push the most recent image that you built to your repo and tag it with it's git commit hash, the semantic version, and recent.
