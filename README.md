@@ -44,7 +44,7 @@ Check that the repo and app name are set correctly:
 # What is does:
 
 
-**--build || -b:** 
+**--build || -b:** Builds the image for local testing
 
 ***Note*** If you are running the container you will need to remove it before building.  Just stop the container from running then run --build again.
 
@@ -61,7 +61,7 @@ services:
         image: DOCKER_REPO/APP_NAME:latest
 ```
 
-**--push || -p [patch, minor, or major]** 
+**--push || -p [patch, minor, or major]:** Bumps the semantic version, rebuilds, tags, and pushes the image. 
 
 ***Note*** You will need to authenticate your docker to the image registry you are using before push will work.  This can be done in various ways, for google it is:
 
