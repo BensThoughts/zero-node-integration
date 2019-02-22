@@ -2,7 +2,7 @@
 
 This is a slightly opinionated script that I wrote to aid in building and pushing docker images to registries in which package.json is used for versioning.  This works for Node, Angular, or any other apps that use package.json for versioning (There is an example angular Dockerfile in the repo as well). Specifically I use it with google image registry, but I'm sure you could use it with others.
 
-It will automatically build docker images locally, keeping the most recent version tagged with recent and the commit hash it is based on. This makes testing locally easy.  
+It will automatically build docker images locally, keeping the most recent version tagged with recent and the commit hash it is based on. It will clean up older versions from the local image store as it goes. This makes testing locally easy. 
 
 When you are ready to release you can push the image to your registry with a new semantic version number tag (patch, minor, or major), the git commit hash it is based on, and the recent tag.  This makes keeping track of versions in your registry, the commit hash they came from, and which is the most recent very easy.
 
@@ -49,6 +49,8 @@ Check that the repo and app name are set correctly:
 ***Note*** If you are running the container you will need to remove it before building.  Just stop the container from running then run --build again.
 
 The --build command will remove the latest image and all of it's tags, build a new version on your local system based on your current commit, tag it with the current git commit hash and latest.
+
+***Note*** If you have multi-stage builds, \<NONE\> image tags will be left behind. These can be easily cleaned up with *docker image prune*.
 
 You can test the latest built image with docker run or with docker-compose by referencing the latest image:
 ```
