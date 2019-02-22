@@ -134,10 +134,10 @@ if [ "$p" = "y" ]; then
 
     # Create the semantic version tag, push it, then remove it
     # from the local system.
-    printf "Pushing semantic version tag to docker repo: $SEM_VER\n"
-    docker tag $IMG_NAME:$GIT_VER $IMG_NAME:$SEM_VER
-    docker push $IMG_NAME:$SEM_VER
-    docker image rm $IMG_NAME:$SEM_VER
+    printf "Pushing semantic version tag to docker repo: v$SEM_VER\n"
+    docker tag $IMG_NAME:$GIT_VER $IMG_NAME:v$SEM_VER
+    docker push $IMG_NAME:v$SEM_VER
+    docker image rm $IMG_NAME:v$SEM_VER
 fi
 
 exit 0
