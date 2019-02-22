@@ -127,11 +127,11 @@ if [ "$p" = "y" ]; then
 
     # Push the newest commit
     printf "Pushing new git version to docker repo: $GIT_VER\n"
-    #docker push $IMG_NAME:$GIT_VER
+    docker push $IMG_NAME:$GIT_VER
     printf " \n"
     # Push the latest tag
     printf "Pushing latest tag to docker repo: latest\n"
-    #docker push $IMG_NAME:latest
+    docker push $IMG_NAME:latest
     printf " \n"
     # Create the semantic version tag, push it, then remove it
     # from the local system.
