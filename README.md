@@ -48,7 +48,7 @@ Builds the image for local testing.
 
 ***Note*** If you are running the container you will need to remove it before building.  Just stop the container from running then run --build again.
 
-The --build command will remove the latest image and all of it's tags, then build a new version on your local system based on your current commit, and last tag it with the current git commit hash and latest.
+The --build command will remove the latest image and all of it's tags, then build a new version on your local system based on your current commit, and lastly tag it with the current git commit hash and latest.
 
 ***Note*** If you have multi-stage builds, \<NONE\> image tags will be left behind. These can be easily cleaned up with *docker image prune*.
 
