@@ -13,10 +13,10 @@ echo "$usage"
 
 help="
 where:
-	-h, --help:  help
-	-i, --info: get the current projects repo/name
-	-b, --build: build container
-	-p, --push:  push a new version (patch, minor, or major)"
+	-h, --help  : help
+	-i, --info  : get the current projects repo/name
+	-b, --build : build container
+	-p, --push  : push a new version (patch, minor, or major)"
 
 
 OPTIONS=hibp:
