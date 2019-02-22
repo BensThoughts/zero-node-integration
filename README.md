@@ -78,7 +78,7 @@ After the version bump the script will re-build the image so that the new semant
 npm ERR! Git working directory not clean.
 ```
 
-It is because you have uncommitted files. Commit your changes, and then try to --version again.
+It is because you have uncommitted files. Commit your changes, and then try --version again.
 
 
 **--push || -p :** 
@@ -91,26 +91,25 @@ Pushes the image to the registry with the tags: latest, git commit hash, and cur
 # gcloud auth configure-docker
 ```
 
-In general --push is meant to be used for releases, so you should be at a clean stage in which your app is fully up to date, recently committed and built, or pushing will not work.
+In general --push is meant to be used for releases, so you should be at a clean stage in which your app is fully committed and built, or pushing will not work.
 
 **Note** If you get an error such as
 ```
 tag does not exist: DOCKER_REPO/APP_NAME:commitHash
 ```
 
-It is because you have not built the image based on the latest commit.  Suggestion is to run --version to bump the version (this will automatically build out the latest version), or just run --build if you do not want to bump the version before pushing.
+It is because you have not built the image based on the latest commit.  Suggestion is to run --version to bump the version (which also builds out the latest version), or just run --build if you do not want to bump the version before pushing.
 
 You can also bump the version and push all at once with:
 ```
 # ./docker.sh --version [patch, minor, or major] --push
 ```
 
-
 # Overview of workflow:
 
 You can work on a project, wile committing changes. Then test those changes locally by using --build and running the container.
 
-When you are ready to release (i.e. have committed all of the latest changes and built them into an image) bump the version with --version so that your image reflects the new version in its package.json.
+When you are ready to release (i.e. have committed all of the latest changes and built them into an image that passes tests) bump the version with --version so that your image reflects the new version in its package.json.
 
 Then use --push to push the new version along with its associated tags (latest, git commit hash, and semantic version) to your docker registry.
 
