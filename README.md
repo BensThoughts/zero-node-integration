@@ -43,7 +43,25 @@ Check that the repo and app name are set correctly:
 
 This will also give you the current semantic version and most recent git commit hash.
 
-# What is does:
+# Overview of workflow:
+
+You can work on a project, wile committing changes. Then test those changes locally by using --build and running the container.
+
+When you are ready to release (i.e. have committed all of the latest changes and built them into an image that passes tests) bump the version with --version so that your image reflects the new version in its package.json.
+
+Then use --push to push the new version along with its associated tags (latest, git commit hash, and semantic version) to your docker registry.
+
+
+# Benefits:
+
+Your docker image repo will continue to grow with the recent tag remaining attached to the most recent version/commit while leaving behind images that have a semantic version tag as well as a commit hash tag.
+
+Thus in your image repo it is easy to see what version images are and to look up which commit they came from. All the while on your local machine it is easy to commit and test regularly without having each new commit build pollute your system.
+
+And lastly you will not have to manually edit your package.json to bump the version when you release.
+
+
+# Commands:
 
 **--build || -b :** 
 
@@ -55,11 +73,13 @@ The --build command will remove the latest image and all of it's tags, then buil
 
 *Note:* If you have multi-stage builds, \<NONE\> image tags will be left behind. These can be easily cleaned up with *docker image prune*.
 
-You can test the latest built image with docker run or with docker-compose by referencing the latest image:
+You can test the latest built image with docker run:
+
 ```
 docker container run DOCKER_REPO/APP_NAME:latest
 ```
-or for example:
+
+or for example with a docker-compose.yml file:
 ```
 services:
     your-app:
@@ -107,20 +127,3 @@ You can also bump the version and push all at once with:
 ```
 # ./docker.sh --version [patch, minor, or major] --push
 ```
-
-# Overview of workflow:
-
-You can work on a project, wile committing changes. Then test those changes locally by using --build and running the container.
-
-When you are ready to release (i.e. have committed all of the latest changes and built them into an image that passes tests) bump the version with --version so that your image reflects the new version in its package.json.
-
-Then use --push to push the new version along with its associated tags (latest, git commit hash, and semantic version) to your docker registry.
-
-
-# Benefits:
-
-Your docker image repo will continue to grow with the recent tag remaining attached to the most recent version/commit while leaving behind images that have a semantic version tag as well as a commit hash tag.
-
-Thus in your image repo it is easy to see what version images are and to look up which commit they came from. All the while on your local machine it is easy to commit and test regularly without having each new commit build pollute your system.
-
-And lastly you will not have to manually edit your package.json to bump the version when you release.
